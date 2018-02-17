@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Data Binding</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<script type="text/javascript">
+	// var Data = {
+	// 	color: '',
+	// 	year: '',
+	// 	type: ''
+	// }
+	// var color = 'red';
+
+
+	function ELM(){
+		this._data_ = {};
+		this.color = 'violet';
+		
+		this.init = function() {
+			this.Assign(this, 'color', [this.updateDoc]);
+			this.Assign(this, 'year', [this.updateDoc]);
+			this.Assign(this, 'type', [this.updateDoc]);
+		}
+	};
+
+	ELM.prototype.updateDoc = function(value) {
+		document.body.innerHTML += value;
+
+	}
+
+	ELM.prototype.Assign = function(obj, prop, funcArr) {
+		// var prop = Data[prop];
+		var self = this;
+		self._data_[prop] = self[prop] || '';
+
+		Object.defineProperty(obj, prop, {
+			get: function() {
+				return self._data_[prop];
+			},
+			set: function(value) {
+				self._data_[prop] = value;
+
+				funcArr.map(function(func) {
+					func(value)
+				})
+			}
+		});
+
+	}
+
+
+
+	var app = new ELM();
+	app.init();
+</script>
